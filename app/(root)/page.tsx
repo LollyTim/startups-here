@@ -1,22 +1,16 @@
 import Image from "next/image";
 import SearchForm from "../../components/SearchForm";
 import StartupCard from "@/components/StartupCard";
+import { client } from "@/sanity/lib/client";
+import { STARTUPS_QUERIES } from "@/lib/queries";
+import { StartupTypeCard } from "@/components/StartupCard";
 
 export default async function Home({ searchParams }: { searchParams: Promise<{ query?: string }> }) {
   const query = (await searchParams).query;
-  const posts = [{
-    _createdAt: new Date(),
-    views: 55,
-    author: {
-      id: { _id: 1 },
-      name: "LollyTech"
-    },
-    _id: 1,
-    description: "This is a description",
-    image: "https://th.bing.com/th/id/OIP.USAU1NomGUL1vPWCyBceOAHaFj?rs=1&pid=ImgDetMain",
-    category: "Robots",
-    title: "We Robots"
-  }]
+
+  const posts = await client.fetch(STARTUPS_QUERIES)
+
+
   return (
     <>
       <section className="pink_container">
@@ -33,7 +27,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
 
         <ul className=" mt-7 card_grid">
           {posts?.length > 0 ? (
-            posts.map((post: StartupCardType, index: number) => (
+            posts.map((post: StartupTypeCard, index: number) => (
               <StartupCard key={post._id} post={post} />
             ))) : (
             <p className="text-center no-results">No results found</p>
