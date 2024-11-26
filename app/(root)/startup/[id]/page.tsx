@@ -1,4 +1,4 @@
-import { STARTYP_BY_ID } from '@/lib/queries';
+import { STARTUP_BY_ID_QUERY } from '@/lib/queries';
 import { formatDate } from '@/lib/utils';
 import { client } from '@/sanity/lib/client';
 import Link from 'next/link';
@@ -14,7 +14,7 @@ export const experimental_ppr = true;
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
     const id = (await params).id;
 
-    const post = await client.fetch(STARTYP_BY_ID, { id })
+    const post = await client.fetch(STARTUP_BY_ID_QUERY, { id })
     if (!post) {
         return notFound()
     }
